@@ -22,9 +22,9 @@ _UpgradeReport_Files/
 ###############
 # Directories #
 ###############
-bin/
-obj/
-TestResults/
+WeatherApplication/bin/
+WeatherApplication/obj/
+WeatherApplication/TestResults/
 ###################
 # Web publish log #
 ###################
