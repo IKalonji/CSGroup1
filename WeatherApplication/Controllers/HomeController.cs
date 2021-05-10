@@ -20,10 +20,11 @@ namespace WeatherApplication.Controllers
 
         public IActionResult Index()
         {
+            ViewData["Title"] = "Home Page - C# Weather";
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult Contact()
         {
             return View();
         }

@@ -3,12 +3,12 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - C# Weather</title>
+    <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     
     <!-- Loading third party fonts -->
-    <link href="http://fonts.googleapis.com/css?family=Roboto:300,400,700|" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700|" rel="stylesheet" type="text/css">
     <link href="~/fonts/font-awesome.min.css" rel="stylesheet" type="text/css">
 
 </head>
@@ -17,7 +17,7 @@
     <!-- .site-header -->
     <div class="site-header">
 				<div class="container">
-					<a href="index.html" class="branding">
+					<a asp-area="" asp-controller="Home" asp-action="Index" class="branding">
 						<img src="~/images/logo.png" alt="" class="logo">
 						<div class="logo-type">
 							<h1 class="site-title">C# Weather</h1>
@@ -29,8 +29,8 @@
 					<div class="main-navigation">
 						<button type="button" class="menu-toggle"><i class="fa fa-bars"></i></button>
 						<ul class="menu">
-							<li class="menu-item current-menu-item"><a href="index.html">Home</a></li>
-							<li class="menu-item"><a href="contact.html">Contact</a></li>
+							<li class="menu-item current-menu-item"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+							<li class="menu-item"><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
 						</ul> <!-- .menu -->
 					</div> <!-- .main-navigation -->
 
