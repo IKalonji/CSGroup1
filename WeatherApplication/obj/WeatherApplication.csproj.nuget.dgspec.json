@@ -1,25 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\bbdnet2432\\Desktop\\GroupProject\\CSGroup1\\WeatherApplication\\WeatherApplication\\WeatherApplication.csproj": {}
+    "C:\\Users\\bbdnet2446\\Documents\\GitHub\\CSGroup1\\WeatherApplication\\WeatherApplication.csproj": {}
   },
   "projects": {
-    "C:\\Users\\bbdnet2432\\Desktop\\GroupProject\\CSGroup1\\WeatherApplication\\WeatherApplication\\WeatherApplication.csproj": {
+    "C:\\Users\\bbdnet2446\\Documents\\GitHub\\CSGroup1\\WeatherApplication\\WeatherApplication.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\bbdnet2432\\Desktop\\GroupProject\\CSGroup1\\WeatherApplication\\WeatherApplication\\WeatherApplication.csproj",
+        "projectUniqueName": "C:\\Users\\bbdnet2446\\Documents\\GitHub\\CSGroup1\\WeatherApplication\\WeatherApplication.csproj",
         "projectName": "WeatherApplication",
-        "projectPath": "C:\\Users\\bbdnet2432\\Desktop\\GroupProject\\CSGroup1\\WeatherApplication\\WeatherApplication\\WeatherApplication.csproj",
-        "packagesPath": "C:\\Users\\bbdnet2432\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\bbdnet2432\\Desktop\\GroupProject\\CSGroup1\\WeatherApplication\\WeatherApplication\\obj\\",
+        "projectPath": "C:\\Users\\bbdnet2446\\Documents\\GitHub\\CSGroup1\\WeatherApplication\\WeatherApplication.csproj",
+        "packagesPath": "C:\\Users\\bbdnet2446\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\bbdnet2446\\Documents\\GitHub\\CSGroup1\\WeatherApplication\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
           "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
-          "C:\\Users\\bbdnet2432\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\bbdnet2446\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
