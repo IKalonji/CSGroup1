@@ -77,4 +77,4 @@ _[Ss]cripts
 # To avoid pushing appsettings #
 ################################
 /appsettings.json
-/appsettings.development.json
+/appsettings.Development.json
