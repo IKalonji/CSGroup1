@@ -22,10 +22,11 @@ namespace WeatherApplication.Controllers
 
         public IActionResult Index()
         {
+            ViewData["Title"] = "Home Page - C# Weather";
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult Contact()
         {
             return View();
         }
@@ -40,31 +41,38 @@ namespace WeatherApplication.Controllers
         {
 
             //Assign API KEY which received from OPENWEATHERMAP.ORG  
-            string appId = "8113fcc5a7494b0518bd91ef3acc074f";
+            string appId = "adff024fa02240e281970159211105";
 
             //API path with CITY parameter and other parameters.  
-            string url = string.Format("http://api.openweathermap.org/data/2.5/weather?q={0}&units=metric&cnt=1&APPID={1}", City, appId);
+            string url = string.Format("http://api.weatherapi.com/v1/forecast.json?key={0}&q={1}&days=3&hour=12", appId, City);
 
             using (System.Net.WebClient client = new WebClient())
             {
                 string json = client.DownloadString(url); 
         
-                RootObject weatherInfo = JsonConvert.DeserializeObject<RootObject>(json);
- 
-                WeatherViewModel WeatherObj = new WeatherViewModel();
-
-                WeatherObj.Country = weatherInfo.sys.country;
-                WeatherObj.City = weatherInfo.name;
-                WeatherObj.Lat = Convert.ToString(weatherInfo.coord.lat);
-                WeatherObj.Lon = Convert.ToString(weatherInfo.coord.lon);
-                WeatherObj.Description = weatherInfo.weather[0].description;
-                WeatherObj.Humidity = Convert.ToString(weatherInfo.main.humidity);
-                WeatherObj.Temp = Convert.ToString(weatherInfo.main.temp);
-                WeatherObj.TempFeelsLike = Convert.ToString(weatherInfo.main.feels_like);
-                WeatherObj.TempMax = Convert.ToString(weatherInfo.main.temp_max);
-                WeatherObj.TempMin = Convert.ToString(weatherInfo.main.temp_min);
-                WeatherObj.WeatherIcon = weatherInfo.weather[0].icon;
-
+                RootObject weatherInfo = JsonConverter.DeserializeObject<RootObject>(json);
+                List<WeatherViewModel> ForecastList = new List<WeatherViewModel>();
+                for (int i = 0; i <= 2; i++) {
+                    WeatherViewModel WeatherObj = new WeatherViewModel
+                    {
+                        Country = weatherInfo.location.country,
+                        City = weatherInfo.location.name,
+                        WeatherCondition = weatherInfo.forecast.forecastday[i].day.condition.text,
+                        Humidity = Convert.ToString(weatherInfo.forecast.forecastday[i].day.avghumidity),
+                        Temp = Convert.ToString(weatherInfo.forecast.forecastday[i].day.avgtemp_c),
+                        TempFeelsLike = Convert.ToString(weatherInfo.forecast.forecastday[i].hour[0].feelslike_c),
+                        TempMax = Convert.ToString(weatherInfo.forecast.forecastday[i].day.maxtemp_c),
+                        TempMin = Convert.ToString(weatherInfo.forecast.forecastday[i].day.mintemp_c),
+                        Sunrise = weatherInfo.forecast.forecastday[i].astro.sunrise,
+                        Sunset = weatherInfo.forecast.forecastday[i].astro.sunset,
+                        WindDirection = weatherInfo.forecast.forecastday[i].hour[0].wind_dir,
+                        WindSpeed = Convert.ToString(weatherInfo.forecast.forecastday[0].hour[0].wind_kph),
+                        RainProbabilty = Convert.ToString(weatherInfo.forecast.forecastday[0].day.daily_chance_of_rain)
+                    };
+                    ForecastList.Add(WeatherObj);
+                    
+                }
+                ViewBag.Forecast = ForecastList;
             }
             return View();
         }
