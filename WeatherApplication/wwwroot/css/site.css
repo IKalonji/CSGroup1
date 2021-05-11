@@ -1274,6 +1274,8 @@
          .forecast-container .forecast.today span img {
            margin-right: 5px;
            vertical-align: middle; }
+
+          
        @media screen and (max-width: 990px) {
          .forecast-container .forecast.today {
            display: block;
