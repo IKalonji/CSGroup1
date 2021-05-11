@@ -50,20 +50,23 @@ namespace WeatherApplication.Controllers
                 string json = client.DownloadString(url); 
         
                 RootObject weatherInfo = JsonConvert.DeserializeObject<RootObject>(json);
- 
-                WeatherViewModel WeatherObj = new WeatherViewModel();
 
-                WeatherObj.Country = weatherInfo.sys.country;
-                WeatherObj.City = weatherInfo.name;
-                WeatherObj.Lat = Convert.ToString(weatherInfo.coord.lat);
-                WeatherObj.Lon = Convert.ToString(weatherInfo.coord.lon);
-                WeatherObj.Description = weatherInfo.weather[0].description;
-                WeatherObj.Humidity = Convert.ToString(weatherInfo.main.humidity);
-                WeatherObj.Temp = Convert.ToString(weatherInfo.main.temp);
-                WeatherObj.TempFeelsLike = Convert.ToString(weatherInfo.main.feels_like);
-                WeatherObj.TempMax = Convert.ToString(weatherInfo.main.temp_max);
-                WeatherObj.TempMin = Convert.ToString(weatherInfo.main.temp_min);
-                WeatherObj.WeatherIcon = weatherInfo.weather[0].icon;
+                WeatherViewModel WeatherObj = new WeatherViewModel
+                {
+                    Country = weatherInfo.location.country,
+                    City = weatherInfo.location.name,
+                    WeatherCondition = weatherInfo.forecast.forecastday[0].day.condition.text,
+                    Humidity = Convert.ToString(weatherInfo.forecast.forecastday[0].day.avghumidity),
+                    Temp = Convert.ToString(weatherInfo.forecast.forecastday[0].day.avgtemp_c),
+                    TempFeelsLike = Convert.ToString(weatherInfo.forecast.forecastday[0].hour[0].feelslike_c),
+                    TempMax = Convert.ToString(weatherInfo.forecast.forecastday[0].day.maxtemp_c),
+                    TempMin = Convert.ToString(weatherInfo.forecast.forecastday[0].day.mintemp_c),
+                    Sunrise = weatherInfo.forecast.forecastday[0].astro.sunrise,
+                    Sunset = weatherInfo.forecast.forecastday[0].astro.sunset,
+                    WindDirection = weatherInfo.forecast.forecastday[0].hour[0].wind_dir,
+                    WindSpeed = Convert.ToString(weatherInfo.forecast.forecastday[0].hour[0].wind_kph),
+                    RainProbabilty = Convert.ToString(weatherInfo.forecast.forecastday[0].day.daily_chance_of_rain)
+                };
 
             }
             return View();
