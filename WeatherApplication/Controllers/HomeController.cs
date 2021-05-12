@@ -28,19 +28,23 @@ namespace WeatherApplication.Controllers
             return View();
         }
 
-
-        [HttpGet("{City}")]
-        public IActionResult Index(string City)
+       [HttpPost]
+    //    public ActionResult Index(WeatherViewModel model)
+    //     {
+    //         var searchTerm = model.City;
+    //         return View();
+    //     }
+        [HttpPost]
+        public IActionResult Index(WeatherViewModel weather)
         {
             ViewData["Title"] = "Home Page - C# Weather";
-            setupWeatherAPI(City);
-            
+            setupWeatherAPI(weather.City);
+
             return View();
         }
 
         public void setupWeatherAPI(string City) {
             string appId = "adff024fa02240e281970159211105";
-            // string City = "Cape Town";
             //API path with CITY parameter and other parameters.  
             string url = string.Format("http://api.weatherapi.com/v1/forecast.json?key={0}&q={1}&days=3&hour=12", appId, City);
             

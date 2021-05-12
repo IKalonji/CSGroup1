@@ -1,12 +1,14 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@model WeatherApplication.Models.WeatherViewModel
 
 <!-- .main-content -->
 <div class="hero" data-bg-image='~/images/banner.png'>
     <div class="container">
         <form method="post" class="find-location">
-            <input type="text" id="search" placeholder="Find your location..." required>
+            @* <input type="text" id="search" placeholder="Find your location..." required> *@
+            @Html.TextBoxFor(m => m.City, new { placeholder = "Find your location..." })
             <input asp-controller="Home" asp-action="Index" type="submit" value="Find">
         </form>
 
