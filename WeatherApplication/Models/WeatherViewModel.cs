@@ -29,7 +29,7 @@ namespace WeatherApplication.Models
     }
     public class RootObject
     {
-        public Location location { get; set; }
+        public Loc location { get; set; }
         public Current current { get; set; }
         public Forecast forecast { get; set; }
     }
