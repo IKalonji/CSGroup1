@@ -21,6 +21,10 @@ namespace WeatherApplication.Models
         public String WindSpeed { get; set; }
         public String WindDirection { get; set; }
         public String RainProbabilty { get; set; }
+        public String Date { get; set; }
+        public String Day { get; set; }
+        public String WordDate { get; set; }
+
 
     }
     public class RootObject
