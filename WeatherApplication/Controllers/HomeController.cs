@@ -25,7 +25,7 @@ namespace WeatherApplication.Controllers
             ViewData["Title"] = "Home Page - C# Weather";
             
             string appId = "adff024fa02240e281970159211105";
-            string City = "Pretoria";
+            string City = "Istanbul";
             //API path with CITY parameter and other parameters.  
             string url = string.Format("http://api.weatherapi.com/v1/forecast.json?key={0}&q={1}&days=3&hour=12", appId, City);
             
@@ -42,10 +42,10 @@ namespace WeatherApplication.Controllers
                         City = weatherInfo.location.name,
                         WeatherCondition = weatherInfo.forecast.forecastday[i].day.condition.text,
                         Humidity = Convert.ToString(weatherInfo.forecast.forecastday[i].day.avghumidity),
-                        Temp = Convert.ToString(weatherInfo.forecast.forecastday[i].day.avgtemp_c),
-                        TempFeelsLike = Convert.ToString(weatherInfo.forecast.forecastday[i].hour[0].feelslike_c),
-                        TempMax = Convert.ToString(weatherInfo.forecast.forecastday[i].day.maxtemp_c),
-                        TempMin = Convert.ToString(weatherInfo.forecast.forecastday[i].day.mintemp_c),
+                        Temp = Convert.ToString(Convert.ToInt32(weatherInfo.forecast.forecastday[i].day.avgtemp_c)),
+                        TempFeelsLike = Convert.ToString(Convert.ToInt32(weatherInfo.forecast.forecastday[i].hour[0].feelslike_c)),
+                        TempMax = Convert.ToString(Convert.ToInt32(weatherInfo.forecast.forecastday[i].day.maxtemp_c)),
+                        TempMin = Convert.ToString(Convert.ToInt32(weatherInfo.forecast.forecastday[i].day.mintemp_c)),
                         Sunrise = weatherInfo.forecast.forecastday[i].astro.sunrise,
                         Sunset = weatherInfo.forecast.forecastday[i].astro.sunset,
                         WindDirection = weatherInfo.forecast.forecastday[i].hour[0].wind_dir,
@@ -53,15 +53,29 @@ namespace WeatherApplication.Controllers
                         RainProbabilty = Convert.ToString(weatherInfo.forecast.forecastday[0].day.daily_chance_of_rain)
                     };
                     ForecastList.Add(WeatherObj);
-                    
                 }
-                ViewData["Temp1"] = ForecastList[0].Temp;
-                ViewData["Temp2"] = ForecastList[1].Temp;
-                ViewData["Temp3"] = ForecastList[2].Temp;
-                ViewBag.Forecast = ForecastList;
+                setWeatherForDay(ForecastList);
+                
             }
-
             return View();
+        }
+
+        public void setWeatherForDay(List<WeatherViewModel> ForecastList) {
+            ViewData["Day 1 Temp"] = ForecastList[0].Temp;
+            ViewData["City"] = ForecastList[0].City;
+            ViewData["WeatherCondition"] = ForecastList[0].WeatherCondition;
+            ViewData["Humidity"] = ForecastList[0].Humidity;
+            ViewData["TempMax"] = ForecastList[0].TempMax;
+            ViewData["TempMin"] = ForecastList[0].TempMin;
+            ViewData["Sunrise"] = ForecastList[0].Sunrise;
+            ViewData["Sunset"] = ForecastList[0].Sunset;
+            ViewData["WindDirection"] = ForecastList[0].WindDirection;
+            ViewData["WindSpeed"] = ForecastList[0].WindSpeed;
+            ViewData["RainProbability"] = ForecastList[0].RainProbabilty;
+            ViewData["Day 2 Max Temp"] = ForecastList[1].TempMax;
+            ViewData["Day 2 Min Temp"] = ForecastList[1].TempMin;
+            ViewData["Day 3 Max Temp"] = ForecastList[2].TempMax;
+            ViewData["Day 3 Min Temp"] = ForecastList[2].TempMin;
         }
 
         public IActionResult Contact()
