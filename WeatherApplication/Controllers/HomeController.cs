@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -118,8 +119,11 @@ namespace WeatherApplication.Controllers
                         Sunrise = weatherInfo.forecast.forecastday[i].astro.sunrise,
                         Sunset = weatherInfo.forecast.forecastday[i].astro.sunset,
                         WindDirection = weatherInfo.forecast.forecastday[i].hour[0].wind_dir,
-                        WindSpeed = Convert.ToString(weatherInfo.forecast.forecastday[0].hour[0].wind_kph),
-                        RainProbabilty = Convert.ToString(weatherInfo.forecast.forecastday[0].day.daily_chance_of_rain)
+                        WindSpeed = Convert.ToString(weatherInfo.forecast.forecastday[i].hour[0].wind_kph),
+                        RainProbabilty = Convert.ToString(weatherInfo.forecast.forecastday[i].day.daily_chance_of_rain),
+                        Date = weatherInfo.forecast.forecastday[i].date,
+                        Day = ConvertToDay(weatherInfo.forecast.forecastday[i].date,false),
+                        WordDate = ConvertToDay(weatherInfo.forecast.forecastday[i].date,true)
                     };
                     ForecastList.Add(WeatherObj);
                     
@@ -127,6 +131,22 @@ namespace WeatherApplication.Controllers
                 ViewBag.Forecast = ForecastList;
             }
             return View();
+        }
+
+        public String ConvertToDay(string DateString, bool Word)
+        {
+            DateTime dateValue;
+            DateTimeOffset dateOffsetValue;
+            dateValue = DateTime.Parse(DateString, CultureInfo.InvariantCulture);
+            dateOffsetValue = new DateTimeOffset(dateValue,
+                                      TimeZoneInfo.Local.GetUtcOffset(dateValue));
+            dateValue = DateTime.Parse(DateString, CultureInfo.InvariantCulture);
+            if (Word)
+            {
+                return dateValue.ToString("ddd d MMM");
+            }
+                return dateValue.ToString("dddd");
+
         }
     }
 }
