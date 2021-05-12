@@ -10,6 +10,6 @@ namespace WeatherApplication.Models
     {
         [Key]
         public int id { set; get; }
-        public string location { set; get; }
+        public string loc { set; get; }
     }
 }
