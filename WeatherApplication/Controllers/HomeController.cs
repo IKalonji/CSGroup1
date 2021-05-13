@@ -16,9 +16,12 @@ namespace WeatherApplication.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
+
+
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
+            
         }
 
         public IActionResult Index()
@@ -40,7 +43,15 @@ namespace WeatherApplication.Controllers
             ViewData["Title"] = "Home Page - C# Weather";
             setupWeatherAPI(weather.City);
 
+        public IActionResult Login()
+        {
             return View();
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
         public void setupWeatherAPI(string City) {
