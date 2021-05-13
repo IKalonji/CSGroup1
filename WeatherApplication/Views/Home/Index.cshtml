@@ -22,8 +22,8 @@
             
             <div class="today forecast">
                 <div class="forecast-header">
-                    <div class="day">Monday</div>
-                    <div class="date">6 Oct</div>
+                    <div class="day">@ViewData["Day 1 Day"]</div>
+                    <div class="date">@ViewData["Day 1 WordDate"]</div>
                 </div> <!-- .forecast-header -->
                 <div class="forecast-content">
                     <div class="location">@ViewData["City"]</div>
@@ -108,7 +108,7 @@
 
             <div class="forecast">
                 <div class="forecast-header">
-                    <div class="day">Tuesday</div>
+                    <div class="day">@ViewData["Day 2 Day"]</div>
                 </div> <!-- .forecast-header -->
                 <div class="forecast-content">
                     <div class="forecast-icon">
@@ -120,7 +120,7 @@
             </div>
             <div class="forecast">
                 <div class="forecast-header">
-                    <div class="day">Wednesday</div>
+                    <div class="day">@ViewData["Day 3 Day"]</div>
                 </div> <!-- .forecast-header -->
                 <div class="forecast-content">
                     <div class="forecast-icon">
@@ -155,7 +155,7 @@
                         </h3>
                         
                    
-                        <small class="date">8 oct, 8:00AM</small>
+                        <small class="date">@ViewData["Day 1 WordDate"], 8:00AM</small>
                     </div>
                 </div>
                 <div class="col-md-3 col-sm-6">
@@ -170,7 +170,7 @@
                                 City = "Cape Town"
                                 }, null)
                         </h3>
-                        <small class="date">8 oct, 8:00AM</small>
+                        <small class="date">@ViewData["Day 1 WordDate"], 8:00AM</small>
                     </div>
                 </div>
                 <div class="col-md-3 col-sm-6">
@@ -185,7 +185,7 @@
                                 City = "Johannesburg"
                                 }, null)
                         </h3>
-                        <small class="date">8 oct, 8:00AM</small>
+                        <small class="date">@ViewData["Day 1 WordDate"], 8:00AM</small>
                     </div>
                 </div>
                 <div class="col-md-3 col-sm-6">
@@ -200,7 +200,7 @@
                                 City = "Durban"
                                 }, null)
                         </h3>
-                        <small class="date">8 oct, 8:00AM</small>
+                        <small class="date">@ViewData["Day 1 WordDate"], 8:00AM</small>
                     </div>
                 </div>
             </div>

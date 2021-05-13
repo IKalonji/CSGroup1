@@ -90,6 +90,8 @@ namespace WeatherApplication.Controllers
                         WindDirection = weatherInfo.forecast.forecastday[i].hour[0].wind_dir,
                         WindSpeed = Convert.ToString(weatherInfo.forecast.forecastday[i].hour[0].wind_kph),
                         RainProbabilty = Convert.ToString(weatherInfo.forecast.forecastday[i].day.daily_chance_of_rain),
+                        Day = this.ConvertToDay(weatherInfo.forecast.forecastday[i].date,false),
+                        WordDate = this.ConvertToDay(weatherInfo.forecast.forecastday[i].date,true),
                         Icon = weatherInfo.forecast.forecastday[i].day.condition.icon
                     };
                     ForecastList.Add(WeatherObj);
@@ -118,6 +120,12 @@ namespace WeatherApplication.Controllers
             ViewData["Day 1 Icon"] = ForecastList[0].Icon;
             ViewData["Day 2 Icon"] = ForecastList[1].Icon;
             ViewData["Day 3 Icon"] = ForecastList[2].Icon;
+            ViewData["Day 1 Day"] = ForecastList[0].Day;
+            ViewData["Day 2 Day"] = ForecastList[1].Day;
+            ViewData["Day 3 Day"] = ForecastList[2].Day;
+            ViewData["Day 1 WordDate"] = ForecastList[0].WordDate;
+            ViewData["Day 2 WordDate"] = ForecastList[1].WordDate;
+            ViewData["Day 3 WordDate"] = ForecastList[2].WordDate;
         }
 
         public IActionResult Contact()
@@ -135,7 +143,7 @@ namespace WeatherApplication.Controllers
             dateValue = DateTime.Parse(DateString, CultureInfo.InvariantCulture);
             if (Word)
             {
-                return dateValue.ToString("ddd d MMM");
+                return dateValue.ToString("d MMM");
             }
                 return dateValue.ToString("dddd");
 
