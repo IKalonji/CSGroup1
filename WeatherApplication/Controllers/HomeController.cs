@@ -67,11 +67,21 @@ namespace WeatherApplication.Controllers
             string appId = "adff024fa02240e281970159211105";
             //API path with CITY parameter and other parameters.  
             string url = string.Format("http://api.weatherapi.com/v1/forecast.json?key={0}&q={1}&days=3&hour=12", appId, City);
-            
+            string DefaultUrl = string.Format("http://api.weatherapi.com/v1/forecast.json?key={0}&q={1}&days=3&hour=12", appId, "Johannesburg");
+
             using (System.Net.WebClient client = new WebClient())
             {
-                string json = client.DownloadString(url); 
-        
+                string json = client.DownloadString(DefaultUrl);
+                try
+                {
+                    json = client.DownloadString(url);
+
+                }
+                catch (System.Net.WebException)
+                {
+                    json = client.DownloadString(DefaultUrl);
+
+                }
                 RootObject weatherInfo = JsonConvert.DeserializeObject<RootObject>(json);
                 List<WeatherViewModel> ForecastList = new List<WeatherViewModel>();
                 String Recommendation = "Cold";
@@ -80,7 +90,9 @@ namespace WeatherApplication.Controllers
                     Recommendation = "Hot";
                    }
                 else if (weatherInfo.forecast.forecastday[0].day.avgtemp_c <= 7) {
+
                     Recommendation = "Freezing";
+
                 }
                 for (int i = 0; i <= 2; i++) {
                     WeatherViewModel WeatherObj = new WeatherViewModel
