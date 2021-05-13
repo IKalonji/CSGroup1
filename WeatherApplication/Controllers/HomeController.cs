@@ -15,26 +15,27 @@ namespace WeatherApplication.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly LocationContext _DbLocation;
-        private readonly UserContext _DbUser;
 
 
-        public HomeController(ILogger<HomeController> logger, LocationContext DbLocation, UserContext DbUser)
+
+        public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-            _DbLocation = DbLocation;
-            _DbUser = DbUser;
+            
         }
 
         public IActionResult Index()
         {
-            ViewBag.locations = _DbLocation.locations.ToList();
-            ViewBag.users = _DbUser.users.ToList();
             ViewData["Title"] = "Home Page - C# Weather";
             return View();
         }
 
         public IActionResult Contact()
+        {
+            return View();
+        }
+
+        public IActionResult Login()
         {
             return View();
         }
