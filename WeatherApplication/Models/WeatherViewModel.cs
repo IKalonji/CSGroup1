@@ -24,6 +24,7 @@ namespace WeatherApplication.Models
         public String Date { get; set; }
         public String Day { get; set; }
         public String WordDate { get; set; }
+        public String Icon { get; set; }
 
 
     }
