@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
@@ -8,22 +10,24 @@ using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using WeatherApplication.Data;
 using WeatherApplication.Models;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace WeatherApplication.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly ApplicationDbContext _context;
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
         {
             _logger = logger;
-            
+            _context = context;
         }
 
-        public IActionResult Index()
+        [Authorize]
+        public async Task<IActionResult> Index()
         {
             ViewData["Title"] = "Home Page - C# Weather";
 
@@ -40,6 +44,22 @@ namespace WeatherApplication.Controllers
 
             // setupWeatherAPI("Cape Town");
             setupWeatherAPI(City);
+            // Inside one of your controller actions
+            if (User.Identity.IsAuthenticated)
+            {
+                string idToken = User.Claims.First()?.Value;
+                Console.WriteLine(idToken);
+                User user = _context.Users.FirstOrDefault(u => u.AccessToken == idToken);
+                
+                // if the user id_token doesn't exist, create it  
+                if (user == null)
+                {
+                    user = _context.Users.Add(entity: new User() { AccessToken = idToken }).Entity;
+                    await _context.SaveChangesAsync();
+                }
+                ViewData["UserId"] = $"{user.Id}";
+            }
+            ViewData["Title"] = "Your Weather";
             return View();
         }
 
@@ -52,7 +72,7 @@ namespace WeatherApplication.Controllers
             return View();
         }
 
-        public IActionResult Login()
+        public IActionResult Home()
         {
             return View();
         }
