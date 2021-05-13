@@ -17,7 +17,6 @@ namespace WeatherApplication.Controllers
         private readonly ILogger<HomeController> _logger;
 
 
-
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
@@ -137,6 +136,17 @@ namespace WeatherApplication.Controllers
         public IActionResult Contact()
         {
             return View();
+        }
+
+        public IActionResult AddRegions()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult CreateRegion(string? region) 
+        {
+            return RedirectToAction("Index");
         }
 
 
