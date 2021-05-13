@@ -12,7 +12,8 @@ namespace WeatherApplication.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-
         public string Location { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
     }
 }

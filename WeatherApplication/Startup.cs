@@ -132,6 +132,10 @@ namespace WeatherApplication
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=home}/{id?}");
+
+                //endpoints.MapControllerRoute(
+                //    name: "location",
+                //    pattern: "User/{userId?}/{controller=Regions}/{action=index}/{id?}");
             });
         }
     }

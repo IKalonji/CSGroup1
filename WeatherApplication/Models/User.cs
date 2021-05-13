@@ -13,5 +13,6 @@ namespace WeatherApplication.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string AccessToken { get; set; }
+        public List<Region> Regions { get; set; }
     }
 }

@@ -1,0 +1,50 @@
+﻿@model IEnumerable<WeatherApplication.Models.Region>
+
+@{
+    ViewData["Title"] = "View";
+}
+
+<h1>My Locations</h1>
+
+
+@if (Model != null && Model.ToList().Count > 0)
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Location)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Location)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h2>You don't have any saved locations</h2>
+    <div class="container">
+        <div class="row">
+            <a class="btn btn-primary btn-xl col-md-4 col-sm-12 mr-2" asp-action="Create">Add New</a>
+            <a class="btn btn-secondary btn-xl col-md-4 col-sm-12" asp-controller="Home" asp-action="Index">Search</a>
+        </div>     
+    </div>
+}

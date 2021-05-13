@@ -34,6 +34,7 @@
                             @if (User.Identity.IsAuthenticated)
                             {
                                 <li class="menu-item"><a asp-area="" asp-controller="Home" asp-action="Index">My Weather</a></li>
+                                <li class="menu-item"><a asp-area="" asp-controller="Regions" asp-action="Index">My Locations</a></li>
                                 <li class="menu-item"><a asp-controller="Account" asp-action="Logout">Logout</a></li>
                             }
                             else

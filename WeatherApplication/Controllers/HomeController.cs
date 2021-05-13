@@ -12,6 +12,7 @@ using System.Net;
 using System.Threading.Tasks;
 using WeatherApplication.Data;
 using WeatherApplication.Models;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace WeatherApplication.Controllers
 {
@@ -19,8 +20,6 @@ namespace WeatherApplication.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
-
-
 
         public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
         {
@@ -33,14 +32,17 @@ namespace WeatherApplication.Controllers
             // Inside one of your controller actions
             if (User.Identity.IsAuthenticated)
             {
-                string idToken = await HttpContext.GetTokenAsync("id_token");
-
+                string idToken = User.Claims.First()?.Value;
+                Console.WriteLine(idToken);
+                User user = _context.Users.FirstOrDefault(u => u.AccessToken == idToken);
+                
                 // if the user id_token doesn't exist, create it  
-                if (!_context.Users.Any(e => e.AccessToken == idToken))
+                if (user == null)
                 {
-                    _context.Users.Add(new User() { AccessToken = idToken });
+                    user = _context.Users.Add(entity: new User() { AccessToken = idToken }).Entity;
                     await _context.SaveChangesAsync();
                 }
+                ViewData["UserId"] = $"{user.Id}";
             }
             ViewData["Title"] = "Your Weather";
             return View();

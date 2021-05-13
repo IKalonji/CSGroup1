@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -18,11 +20,15 @@ namespace WeatherApplication.Controllers
         {
             _context = context;
         }
-
+        [Authorize]
         // GET: Regions
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Locations.ToListAsync());
+            string idToken = User.Claims.First()?.Value;
+            // TODO: Context Query https://docs.microsoft.com/en-us/aspnet/mvc/overview/getting-started/getting-started-with-ef-using-mvc/advanced-entity-framework-scenarios-for-an-mvc-web-application
+            User user = GetAssociatedUser();
+            return View(user.Regions);
+            //return View();
         }
 
         // GET: Regions/Details/5
@@ -33,7 +39,7 @@ namespace WeatherApplication.Controllers
                 return NotFound();
             }
 
-            var region = await _context.Locations
+            var region = await _context.Regions
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (region == null)
             {
@@ -73,7 +79,7 @@ namespace WeatherApplication.Controllers
                 return NotFound();
             }
 
-            var region = await _context.Locations.FindAsync(id);
+            var region = await _context.Regions.FindAsync(id);
             if (region == null)
             {
                 return NotFound();
@@ -124,7 +130,7 @@ namespace WeatherApplication.Controllers
                 return NotFound();
             }
 
-            var region = await _context.Locations
+            var region = await _context.Regions
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (region == null)
             {
@@ -139,15 +145,22 @@ namespace WeatherApplication.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var region = await _context.Locations.FindAsync(id);
-            _context.Locations.Remove(region);
+            var region = await _context.Regions.FindAsync(id);
+            _context.Regions.Remove(region);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool RegionExists(int id)
         {
-            return _context.Locations.Any(e => e.Id == id);
+            return _context.Regions.Any(e => e.Id == id);
+        }
+
+        private User GetAssociatedUser()
+        {
+            string idToken = User.Claims.First()?.Value;
+            User user = _context.Users.FirstOrDefault(u => u.AccessToken == idToken);
+            return user;
         }
     }
 }
