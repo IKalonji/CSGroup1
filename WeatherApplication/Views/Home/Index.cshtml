@@ -1,14 +1,18 @@
-﻿@* @{
+﻿@{
     ViewData["Title"] = "Home Page";
-} *@
+}
+@model WeatherApplication.Models.WeatherViewModel
 
 <!-- .main-content -->
 <div class="hero" data-bg-image='~/images/banner.png'>
     <div class="container">
-        <form action="#" class="find-location">
-            <input type="text" placeholder="Find your location...">
-            <input type="submit" value="Find">
+        <form method="post" class="find-location">
+            @* <input type="text" id="search" placeholder="Find your location..." required> *@
+            @Html.TextBoxFor(m => m.City, new { placeholder = "Find your location..." })
+            
+            <input asp-controller="Home" asp-action="Index" type="submit" value="Find">
         </form>
+
     </div>
 </div>
 
@@ -22,17 +26,18 @@
                     <div class="date">6 Oct</div>
                 </div> <!-- .forecast-header -->
                 <div class="forecast-content">
-                    <div class="location">Pretoria</div>
+                    <div class="location">@ViewData["City"]</div>
                     <div class="degree">
-                        <div class="num">23<sup>o</sup>C</div>
+                        <div class="num">@ViewData["Day 1 Temp"]<sup>o</sup>C</div>
                         <div class="forecast-icon">
-                            <img src="~/images/icons/icon-1.svg" alt="" width=90>
+                            <img src=@ViewData["Day 3 Icon"] alt="" width=90>
                         </div>	
                     </div>
-                    <span><img src="~/images/icon-umberella.png" alt="">20%</span>
-                    <span><img src="~/images/icon-wind.png" alt="">18km/h</span>
-                    <span><img src="~/images/icon-compass.png" alt="">East</span>
+                    <span><img src="~/images/icon-umberella.png" alt="">@ViewData["RainProbability"] %</span>
+                    <span><img src="~/images/icon-wind.png" alt="">@ViewData["WindSpeed"] km/h</span>
+                    <span><img src="~/images/icon-compass.png" alt="">@ViewData["WindDirection"]</span>
                 </div>
+                
             </div>
 
 
@@ -46,56 +51,56 @@
                     <img src="~/images/icon-compass.png" alt="">                        
                     </td>  
                     <td>Humidity</td>
-                    <td>5</td>
+                    <td>@ViewData["Humidity"]%</td>
                 </tr>
                 <tr>
                     <td>
                         <img src="~/images/temperature.png" alt="">
                     </td>  
                     <td>Min Temperature</td>
-                    <td>5</td>
+                    <td>@ViewData["TempMin"] <sup>o</sup>C</td>
                 </tr>
                 <tr>
                     <td>
                         <img src="~/images/temperature.png" alt="">  
                     </td>  
                     <td>Max Temperature</td>
-                    <td>5</td>
+                    <td>@ViewData["TempMax"] <sup>o</sup>C</td>
                 </tr>
                 <tr>
                     <td>
                         <img src="~/images/weather-condition.png" alt="">  
                     </td>  
                     <td>Weather Condition</td>
-                    <td>5</td>
+                    <td>@ViewData["WeatherCondition"]</td>
                 </tr>
                 <tr>
                     <td>
                         <img src="~/images/icon-compass.png" alt="">                        
                     </td>  
                     <td>Wind Direction</td>
-                    <td>4</td>
+                    <td>@ViewData["WindDirection"]</td>
                 </tr>
                 <tr>
                     <td>
                         <img src="~/images/icon-wind.png" alt="">                        
                     </td>  
                     <td>Wind Speed</td>
-                    <td>3</td>
+                    <td>@ViewData["WindSpeed"] km/h</td>
                 </tr>
                 <tr>
                     <td>
                         <img src="~/images/icon-umberella.png" alt="">                        
                     </td> 
                     <td>Rain Probability</td>
-                    <td>2</td>
+                    <td>@ViewData["RainProbability"]%</td>
                 </tr>
                 <tr>
                     <td>
                         <img src="~/images/sunrise-sunset.png" alt="">  
                     </td>  
                     <td>Sunrise/Sunset</td>
-                    <td>2</td>
+                    <td>@ViewData["Sunrise"] / @ViewData["Sunset"]</td>
                 </tr>
             </table>
             </div>
@@ -107,10 +112,10 @@
                 </div> <!-- .forecast-header -->
                 <div class="forecast-content">
                     <div class="forecast-icon">
-                        <img src="~/images/icons/icon-3.svg" alt="" width=48>
+                        <img src=@ViewData["Day 2 Icon"] alt="" width=48>
                     </div>
-                    <div class="degree">23<sup>o</sup>C</div>
-                    <small>18<sup>o</sup></small>
+                    <div class="degree">@ViewData["Day 2 Max Temp"]<sup>o</sup>C</div>
+                    <small>@ViewData["Day 2 Min Temp"]<sup>o</sup></small>
                 </div>
             </div>
             <div class="forecast">
@@ -119,60 +124,12 @@
                 </div> <!-- .forecast-header -->
                 <div class="forecast-content">
                     <div class="forecast-icon">
-                        <img src="~/images/icons/icon-5.svg" alt="" width=48>
+                        <img src=@ViewData["Day 3 Icon"] alt="" width=48>
                     </div>
-                    <div class="degree">23<sup>o</sup>C</div>
-                    <small>18<sup>o</sup></small>
+                    <div class="degree">@ViewData["Day 3 Max Temp"]<sup>o</sup>C</div>
+                    <small>@ViewData["Day 3 Min Temp"]<sup>o</sup></small>
                 </div>
             </div>
-            <div class="forecast">
-                <div class="forecast-header">
-                    <div class="day">Thursday</div>
-                </div> <!-- .forecast-header -->
-                <div class="forecast-content">
-                    <div class="forecast-icon">
-                        <img src="~/images/icons/icon-7.svg" alt="" width=48>
-                    </div>
-                    <div class="degree">23<sup>o</sup>C</div>
-                    <small>18<sup>o</sup></small>
-                </div>
-            </div>
-            @* <div class="forecast">
-                <div class="forecast-header">
-                    <div class="day">Friday</div>
-                </div> <!-- .forecast-header -->
-                <div class="forecast-content">
-                    <div class="forecast-icon">
-                        <img src="~/images/icons/icon-12.svg" alt="" width=48>
-                    </div>
-                    <div class="degree">23<sup>o</sup>C</div>
-                    <small>18<sup>o</sup></small>
-                </div>
-            </div>
-            <div class="forecast">
-                <div class="forecast-header">
-                    <div class="day">Saturday</div>
-                </div> <!-- .forecast-header -->
-                <div class="forecast-content">
-                    <div class="forecast-icon">
-                        <img src="~/images/icons/icon-13.svg" alt="" width=48>
-                    </div>
-                    <div class="degree">23<sup>o</sup>C</div>
-                    <small>18<sup>o</sup></small>
-                </div>
-            </div>
-            <div class="forecast">
-                <div class="forecast-header">
-                    <div class="day">Sunday</div>
-                </div> <!-- .forecast-header -->
-                <div class="forecast-content">
-                    <div class="forecast-icon">
-                        <img src="~/images/icons/icon-14.svg" alt="" width=48>
-                    </div>
-                    <div class="degree">23<sup>o</sup>C</div>
-                    <small>18<sup>o</sup></small>
-                </div>
-            </div> *@
         </div>
     </div>
 </div>
@@ -184,7 +141,14 @@
             <div class="row">
                 <div class="col-md-3 col-sm-6">
                     <div class="live-camera">
-                        <figure class="live-camera-cover"><img src="~/images/live-camera-1.jpg" alt=""></figure>
+                        @* <figure class="live-camera-cover"><img src="~/images/live-camera-1.jpg" alt=""></figure> *@
+                        @Html.ActionLink("Pretoria", "Index", "Home", null, new
+                        {
+                        @class = "live-camera-cover",
+                        style = "background: url('" +
+                        Url.Content("~/images/live-camera-1.jpg") + 
+                        "') margin:0; display:block;"
+                    })
                         <h3 class="location">Pretoria</h3>
                         <small class="date">8 oct, 8:00AM</small>
                     </div>
@@ -213,4 +177,7 @@
             </div>
         </div>
     </div>
+
+
+
 </main> 
