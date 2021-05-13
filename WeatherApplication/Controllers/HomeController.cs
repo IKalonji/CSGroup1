@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
@@ -8,6 +10,7 @@ using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using WeatherApplication.Data;
 using WeatherApplication.Models;
 
 namespace WeatherApplication.Controllers
@@ -15,18 +18,31 @@ namespace WeatherApplication.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext _context;
 
 
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
         {
             _logger = logger;
-            
+            _context = context;
         }
-
-        public IActionResult Index()
+        [Authorize]
+        public async Task<IActionResult> Index()
         {
-            ViewData["Title"] = "Home Page - C# Weather";
+            // Inside one of your controller actions
+            if (User.Identity.IsAuthenticated)
+            {
+                string idToken = await HttpContext.GetTokenAsync("id_token");
+
+                // if the user id_token doesn't exist, create it  
+                if (!_context.Users.Any(e => e.AccessToken == idToken))
+                {
+                    _context.Users.Add(new User() { AccessToken = idToken });
+                    await _context.SaveChangesAsync();
+                }
+            }
+            ViewData["Title"] = "Your Weather";
             return View();
         }
 
@@ -35,7 +51,7 @@ namespace WeatherApplication.Controllers
             return View();
         }
 
-        public IActionResult Login()
+        public IActionResult Home()
         {
             return View();
         }

@@ -27,20 +27,21 @@
                     <h1 class="text-uppercase text-white font-weight-bold">C# Weather</h1>
                     <hr class="divider my-4" />
                 </div>
-                <div class="col-lg-8 align-self-baseline">
-                    <p>
-
-                    </p>
-                    <a class="btn btn-primary btn-xl js-scroll-trigger" href="#about">Login</a>
-                    <p>
-
-                    </p>
+                <div class="col-lg-8 align-self-baseline py-3">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a class="btn btn-primary btn-xl js-scroll-trigger" asp-controller="Account" asp-action="Logout">Logout</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-primary btn-xl js-scroll-trigger" asp-controller="Account" asp-action="Login">Login</a>
+                    }
                 </div>
             </div>
         </div>
     </header>
     <!-- About-->
-    <section class="page-section bg-transparent id="about">
+    <section class="page-section bg-transparent" id="about">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-8 text-center">

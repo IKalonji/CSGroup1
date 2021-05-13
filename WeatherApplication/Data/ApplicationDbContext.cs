@@ -13,7 +13,7 @@ namespace WeatherApplication.Data
 
         public DbSet<WeatherViewModel> WeatherView { get; set; }
 
-        public DbSet<User> User { get; set; }
+        public DbSet<User> Users { get; set; }
 
         public DbSet<Region> Locations { get; set; }
     }
