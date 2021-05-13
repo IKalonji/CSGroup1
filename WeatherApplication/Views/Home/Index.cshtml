@@ -9,6 +9,7 @@
         <form method="post" class="find-location">
             @* <input type="text" id="search" placeholder="Find your location..." required> *@
             @Html.TextBoxFor(m => m.City, new { placeholder = "Find your location..." })
+            
             <input asp-controller="Home" asp-action="Index" type="submit" value="Find">
         </form>
 
@@ -32,8 +33,8 @@
                             <img src=@ViewData["Day 3 Icon"] alt="" width=90>
                         </div>	
                     </div>
-                    <span><img src="~/images/icon-umberella.png" alt="">@ViewData["RainProbability"]</span>
-                    <span><img src="~/images/icon-wind.png" alt="">@ViewData["WindSpeed"]</span>
+                    <span><img src="~/images/icon-umberella.png" alt="">@ViewData["RainProbability"] %</span>
+                    <span><img src="~/images/icon-wind.png" alt="">@ViewData["WindSpeed"] km/h</span>
                     <span><img src="~/images/icon-compass.png" alt="">@ViewData["WindDirection"]</span>
                 </div>
                 
@@ -140,7 +141,14 @@
             <div class="row">
                 <div class="col-md-3 col-sm-6">
                     <div class="live-camera">
-                        <figure class="live-camera-cover"><img src="~/images/live-camera-1.jpg" alt=""></figure>
+                        @* <figure class="live-camera-cover"><img src="~/images/live-camera-1.jpg" alt=""></figure> *@
+                        @Html.ActionLink("Pretoria", "Index", "Home", null, new
+                        {
+                        @class = "live-camera-cover",
+                        style = "background: url('" +
+                        Url.Content("~/images/live-camera-1.jpg") + 
+                        "') margin:0; display:block;"
+                    })
                         <h3 class="location">Pretoria</h3>
                         <small class="date">8 oct, 8:00AM</small>
                     </div>
