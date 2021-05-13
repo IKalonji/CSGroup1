@@ -74,13 +74,13 @@ namespace WeatherApplication.Controllers
         
                 RootObject weatherInfo = JsonConvert.DeserializeObject<RootObject>(json);
                 List<WeatherViewModel> ForecastList = new List<WeatherViewModel>();
-                String Hot = "Cold";
+                String Recommendation = "Cold";
                 if (weatherInfo.forecast.forecastday[0].day.avgtemp_c >= 20)
                 {
-                    Hot = "Hot";
+                    Recommendation = "Hot";
                    }
-                else if (weatherInfo.forecast.forecastday[0].day.avgtemp_c <= 5) {
-                    Hot = "Freezing";
+                else if (weatherInfo.forecast.forecastday[0].day.avgtemp_c <= 7) {
+                    Recommendation = "Freezing";
                 }
                 for (int i = 0; i <= 2; i++) {
                     WeatherViewModel WeatherObj = new WeatherViewModel
@@ -98,7 +98,7 @@ namespace WeatherApplication.Controllers
                         WindDirection = weatherInfo.forecast.forecastday[i].hour[0].wind_dir,
                         WindSpeed = Convert.ToString(weatherInfo.forecast.forecastday[i].hour[0].wind_kph),
                         RainProbabilty = Convert.ToString(weatherInfo.forecast.forecastday[i].day.daily_chance_of_rain),
-                        Hot = Hot
+                        Recommendation = Recommendation,
                         Day = this.ConvertToDay(weatherInfo.forecast.forecastday[i].date,false),
                         WordDate = this.ConvertToDay(weatherInfo.forecast.forecastday[i].date,true),
                         Icon = weatherInfo.forecast.forecastday[i].day.condition.icon
@@ -130,10 +130,10 @@ namespace WeatherApplication.Controllers
             ViewData["Day 2 Icon"] = ForecastList[1].Icon;
             ViewData["Day 3 Icon"] = ForecastList[2].Icon;
             
-            if (ForecastList[0].Hot == "Hot") {
+            if (ForecastList[0].Recommendation == "Hot") {
                 ViewData["Clothing"] = "https://www.sportscene.co.za/plp/men/clothing/t-shirts/_/N-280i#p=1&e=280iZ8s3hdu&f=sku.activePrice%257CBTWN+69+2500";
             }
-            else if(ForecastList[0].Hot == "Freezing")
+            else if(ForecastList[0].Recommendation == "Freezing")
             {
                 ViewData["Clothing"] = "https://www.sportscene.co.za/plp/women/clothing/jackets/_/N-2851;jsessionid=sUNVN595HPFYyedCipmkEOYulyoTSVi2NC0l5SEt.tfg-prd-com-85#p=1&e=2851Z8s3hdu&f=sku.activePrice%257CBTWN+219+2500";
             }
