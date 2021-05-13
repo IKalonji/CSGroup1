@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewData["Title"] = "AddRegions";
+}
+<form method="post" asp-action="CreateRegion">
+<h3 class="px-1">Add locations to track below</h3>
+<div class="row px-3">
+    <div class="col-10">
+        <div class="form-group row">
+            <input class="form-control my-3" />
+        </div>
+        <input asp-action="CreateRegion" type="submit" class="btn btn-info" value="Add Location">
+    </div>
+</div>
+</form>
+

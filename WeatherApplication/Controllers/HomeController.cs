@@ -17,7 +17,6 @@ namespace WeatherApplication.Controllers
         private readonly ILogger<HomeController> _logger;
 
 
-
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
@@ -27,23 +26,32 @@ namespace WeatherApplication.Controllers
         public IActionResult Index()
         {
             ViewData["Title"] = "Home Page - C# Weather";
-            setupWeatherAPI("Cape Town");
+
+            var queryString = Request.Query.ToDictionary(q => q.Key, q => q.Value);
+
+            string City = "Cape Town";
+
+            try{
+                City = queryString["City"];
+            } catch {
+                City = "Cape Town";
+            }
+            
+
+            // setupWeatherAPI("Cape Town");
+            setupWeatherAPI(City);
             return View();
         }
 
+
         [HttpPost]
-        //    public ActionResult Index(WeatherViewModel model)
-        //     {
-        //         var searchTerm = model.City;
-        //         return View();
-        //     }
-        [HttpPost]
-        public IActionResult Index(WeatherViewModel weather)
+        public IActionResult Index(string City)
         {
             ViewData["Title"] = "Home Page - C# Weather";
-            setupWeatherAPI(weather.City);
+            setupWeatherAPI(City);
             return View();
         }
+
         public IActionResult Login()
         {
             return View();
@@ -66,13 +74,13 @@ namespace WeatherApplication.Controllers
         
                 RootObject weatherInfo = JsonConvert.DeserializeObject<RootObject>(json);
                 List<WeatherViewModel> ForecastList = new List<WeatherViewModel>();
-                String Hot = "Cold";
+                String Recommendation = "Cold";
                 if (weatherInfo.forecast.forecastday[0].day.avgtemp_c >= 20)
                 {
-                    Hot = "Hot";
+                    Recommendation = "Hot";
                    }
-                else if (weatherInfo.forecast.forecastday[0].day.avgtemp_c <= 5) {
-                    Hot = "Freezing";
+                else if (weatherInfo.forecast.forecastday[0].day.avgtemp_c <= 7) {
+                    Recommendation = "Freezing";
                 }
                 for (int i = 0; i <= 2; i++) {
                     WeatherViewModel WeatherObj = new WeatherViewModel
@@ -90,10 +98,10 @@ namespace WeatherApplication.Controllers
                         WindDirection = weatherInfo.forecast.forecastday[i].hour[0].wind_dir,
                         WindSpeed = Convert.ToString(weatherInfo.forecast.forecastday[i].hour[0].wind_kph),
                         RainProbabilty = Convert.ToString(weatherInfo.forecast.forecastday[i].day.daily_chance_of_rain),
-                        Icon = weatherInfo.forecast.forecastday[i].day.condition.icon,
-                        Hot = Hot
-                        
-                        
+                        Recommendation = Recommendation,
+                        Day = this.ConvertToDay(weatherInfo.forecast.forecastday[i].date,false),
+                        WordDate = this.ConvertToDay(weatherInfo.forecast.forecastday[i].date,true),
+                        Icon = weatherInfo.forecast.forecastday[i].day.condition.icon
                     };
                     ForecastList.Add(WeatherObj);
                 }
@@ -121,10 +129,11 @@ namespace WeatherApplication.Controllers
             ViewData["Day 1 Icon"] = ForecastList[0].Icon;
             ViewData["Day 2 Icon"] = ForecastList[1].Icon;
             ViewData["Day 3 Icon"] = ForecastList[2].Icon;
-            if (ForecastList[0].Hot == "Hot") {
+            
+            if (ForecastList[0].Recommendation == "Hot") {
                 ViewData["Clothing"] = "https://www.sportscene.co.za/plp/men/clothing/t-shirts/_/N-280i#p=1&e=280iZ8s3hdu&f=sku.activePrice%257CBTWN+69+2500";
             }
-            else if(ForecastList[0].Hot == "Freezing")
+            else if(ForecastList[0].Recommendation == "Freezing")
             {
                 ViewData["Clothing"] = "https://www.sportscene.co.za/plp/women/clothing/jackets/_/N-2851;jsessionid=sUNVN595HPFYyedCipmkEOYulyoTSVi2NC0l5SEt.tfg-prd-com-85#p=1&e=2851Z8s3hdu&f=sku.activePrice%257CBTWN+219+2500";
             }
@@ -132,6 +141,13 @@ namespace WeatherApplication.Controllers
             {
                 ViewData["Clothing"] = "https://www.sportscene.co.za/plp/men/clothing/sweats-hoodies/_/N-280k;jsessionid=1c1rh_DpsfrNCGY1EysqKu4LbzCXDm7HDbp69br_.tfg-prd-com-85#p=1&e=280kZ8s3hdu&f=sku.activePrice%257CBTWN+249+1700";
             }
+
+            ViewData["Day 1 Day"] = ForecastList[0].Day;
+            ViewData["Day 2 Day"] = ForecastList[1].Day;
+            ViewData["Day 3 Day"] = ForecastList[2].Day;
+            ViewData["Day 1 WordDate"] = ForecastList[0].WordDate;
+            ViewData["Day 2 WordDate"] = ForecastList[1].WordDate;
+            ViewData["Day 3 WordDate"] = ForecastList[2].WordDate;
         }
 
         public IActionResult Contact()
@@ -139,6 +155,16 @@ namespace WeatherApplication.Controllers
             return View();
         }
 
+        public IActionResult AddRegions()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult CreateRegion(string? region) 
+        {
+            return RedirectToAction("Index");
+        }
 
 
         public String ConvertToDay(string DateString, bool Word)
@@ -151,7 +177,7 @@ namespace WeatherApplication.Controllers
             dateValue = DateTime.Parse(DateString, CultureInfo.InvariantCulture);
             if (Word)
             {
-                return dateValue.ToString("ddd d MMM");
+                return dateValue.ToString("d MMM");
             }
                 return dateValue.ToString("dddd");
 

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace WeatherApplication.Models
 {
+    [Keyless]
     public class WeatherViewModel
     {
         public String Country { get; set; }
@@ -25,10 +27,11 @@ namespace WeatherApplication.Models
         public String Day { get; set; }
         public String WordDate { get; set; }
         public String Icon { get; set; }
-        public String Hot { get; set; }
+        public String Recommendation { get; set; }
 
 
     }
+    [Keyless]
     public class RootObject
     {
         public Location location { get; set; }
@@ -48,6 +51,7 @@ namespace WeatherApplication.Models
         public string localtime { get; set; }
     }
 
+    [Keyless]
     public class Current
     {
         public int last_updated_epoch { get; set; }
@@ -74,19 +78,19 @@ namespace WeatherApplication.Models
         public float gust_mph { get; set; }
         public float gust_kph { get; set; }
     }
-
+    [Keyless]
     public class Condition
     {
         public string text { get; set; }
         public string icon { get; set; }
         public int code { get; set; }
     }
-
+    [Keyless]
     public class Forecast
     {
         public Forecastday[] forecastday { get; set; }
     }
-
+    [Keyless]
     public class Forecastday
     {
         public string date { get; set; }
@@ -95,7 +99,7 @@ namespace WeatherApplication.Models
         public Astro astro { get; set; }
         public Hour[] hour { get; set; }
     }
-
+    [Keyless]
     public class Day
     {
         public float maxtemp_c { get; set; }
@@ -118,14 +122,14 @@ namespace WeatherApplication.Models
         public Condition1 condition { get; set; }
         public float uv { get; set; }
     }
-
+    [Keyless]
     public class Condition1
     {
         public string text { get; set; }
         public string icon { get; set; }
         public int code { get; set; }
     }
-
+    [Keyless]
     public class Astro
     {
         public string sunrise { get; set; }
@@ -135,7 +139,7 @@ namespace WeatherApplication.Models
         public string moon_phase { get; set; }
         public string moon_illumination { get; set; }
     }
-
+    [Keyless]
     public class Hour
     {
         public int time_epoch { get; set; }
@@ -172,7 +176,7 @@ namespace WeatherApplication.Models
         public float gust_kph { get; set; }
         public float uv { get; set; }
     }
-
+    [Keyless]
     public class Condition2
     {
         public string text { get; set; }
