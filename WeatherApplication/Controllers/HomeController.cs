@@ -27,21 +27,30 @@ namespace WeatherApplication.Controllers
         public IActionResult Index()
         {
             ViewData["Title"] = "Home Page - C# Weather";
-            setupWeatherAPI("Cape Town");
+
+            var queryString = Request.Query.ToDictionary(q => q.Key, q => q.Value);
+
+            string City = "Cape Town";
+
+            try{
+                City = queryString["City"];
+            } catch {
+                City = "Cape Town";
+            }
+            
+
+            // setupWeatherAPI("Cape Town");
+            setupWeatherAPI(City);
             return View();
         }
 
-       [HttpPost]
-    //    public ActionResult Index(WeatherViewModel model)
-    //     {
-    //         var searchTerm = model.City;
-    //         return View();
-    //     }
         [HttpPost]
-        public IActionResult Index(WeatherViewModel weather)
+        public IActionResult Index(string City)
         {
             ViewData["Title"] = "Home Page - C# Weather";
-            setupWeatherAPI(weather.City);
+            setupWeatherAPI(City);
+            return View();
+        }
 
         public IActionResult Login()
         {
@@ -115,14 +124,7 @@ namespace WeatherApplication.Controllers
         {
             return View();
         }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
-
+        
         public String ConvertToDay(string DateString, bool Word)
         {
             DateTime dateValue;
