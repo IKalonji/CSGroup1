@@ -31,18 +31,19 @@ namespace WeatherApplication.Controllers
             return View();
         }
 
-       [HttpPost]
-    //    public ActionResult Index(WeatherViewModel model)
-    //     {
-    //         var searchTerm = model.City;
-    //         return View();
-    //     }
+        [HttpPost]
+        //    public ActionResult Index(WeatherViewModel model)
+        //     {
+        //         var searchTerm = model.City;
+        //         return View();
+        //     }
         [HttpPost]
         public IActionResult Index(WeatherViewModel weather)
         {
             ViewData["Title"] = "Home Page - C# Weather";
             setupWeatherAPI(weather.City);
-
+            return View();
+        }
         public IActionResult Login()
         {
             return View();
@@ -65,6 +66,14 @@ namespace WeatherApplication.Controllers
         
                 RootObject weatherInfo = JsonConvert.DeserializeObject<RootObject>(json);
                 List<WeatherViewModel> ForecastList = new List<WeatherViewModel>();
+                String Hot = "Cold";
+                if (weatherInfo.forecast.forecastday[0].day.avgtemp_c >= 20)
+                {
+                    Hot = "Hot";
+                   }
+                else if (weatherInfo.forecast.forecastday[0].day.avgtemp_c <= 5) {
+                    Hot = "Freezing";
+                }
                 for (int i = 0; i <= 2; i++) {
                     WeatherViewModel WeatherObj = new WeatherViewModel
                     {
@@ -81,7 +90,10 @@ namespace WeatherApplication.Controllers
                         WindDirection = weatherInfo.forecast.forecastday[i].hour[0].wind_dir,
                         WindSpeed = Convert.ToString(weatherInfo.forecast.forecastday[i].hour[0].wind_kph),
                         RainProbabilty = Convert.ToString(weatherInfo.forecast.forecastday[i].day.daily_chance_of_rain),
-                        Icon = weatherInfo.forecast.forecastday[i].day.condition.icon
+                        Icon = weatherInfo.forecast.forecastday[i].day.condition.icon,
+                        Hot = Hot
+                        
+                        
                     };
                     ForecastList.Add(WeatherObj);
                 }
@@ -109,6 +121,17 @@ namespace WeatherApplication.Controllers
             ViewData["Day 1 Icon"] = ForecastList[0].Icon;
             ViewData["Day 2 Icon"] = ForecastList[1].Icon;
             ViewData["Day 3 Icon"] = ForecastList[2].Icon;
+            if (ForecastList[0].Hot == "Hot") {
+                ViewData["Clothing"] = "https://www.sportscene.co.za/plp/men/clothing/t-shirts/_/N-280i#p=1&e=280iZ8s3hdu&f=sku.activePrice%257CBTWN+69+2500";
+            }
+            else if(ForecastList[0].Hot == "Freezing")
+            {
+                ViewData["Clothing"] = "https://www.sportscene.co.za/plp/women/clothing/jackets/_/N-2851;jsessionid=sUNVN595HPFYyedCipmkEOYulyoTSVi2NC0l5SEt.tfg-prd-com-85#p=1&e=2851Z8s3hdu&f=sku.activePrice%257CBTWN+219+2500";
+            }
+            else
+            {
+                ViewData["Clothing"] = "https://www.sportscene.co.za/plp/men/clothing/sweats-hoodies/_/N-280k;jsessionid=1c1rh_DpsfrNCGY1EysqKu4LbzCXDm7HDbp69br_.tfg-prd-com-85#p=1&e=280kZ8s3hdu&f=sku.activePrice%257CBTWN+249+1700";
+            }
         }
 
         public IActionResult Contact()
@@ -116,11 +139,6 @@ namespace WeatherApplication.Controllers
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
 
 
         public String ConvertToDay(string DateString, bool Word)
