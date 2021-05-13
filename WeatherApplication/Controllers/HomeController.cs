@@ -118,7 +118,7 @@ namespace WeatherApplication.Controllers
                         WindDirection = weatherInfo.forecast.forecastday[i].hour[0].wind_dir,
                         WindSpeed = Convert.ToString(weatherInfo.forecast.forecastday[i].hour[0].wind_kph),
                         RainProbabilty = Convert.ToString(weatherInfo.forecast.forecastday[i].day.daily_chance_of_rain),
-                        Hot = Hot
+                        Hot = Hot,
                         Day = this.ConvertToDay(weatherInfo.forecast.forecastday[i].date,false),
                         WordDate = this.ConvertToDay(weatherInfo.forecast.forecastday[i].date,true),
                         Icon = weatherInfo.forecast.forecastday[i].day.condition.icon
